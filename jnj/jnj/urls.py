@@ -21,7 +21,7 @@ import logistic.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^logistic/', include('logistic.urls')),
+    url(r'^', include('logistic.urls')),
 ]
 
 if settings.DEBUG:
