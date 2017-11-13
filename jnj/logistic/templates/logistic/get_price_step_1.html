@@ -1,0 +1,36 @@
+{% extends "logistic/base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <h1>Please Select Preferred Transport Service for Getting Estimated Price</h1>
+  {% if cargo_type %}
+    Selected Cargo Type : {{ cargo_type.cargo_type_name }}
+  {% else %}
+    No Cargo Type Selected
+  {% endif %}
+
+  <h2>Select Transport Service:</h2>
+  {% if transport_service_list %}
+    {% for transport_service in transport_service_list %}
+      <div class="col-sm-4 col-lg-2">
+        <div class="thumbnail">
+          <a href="{% url 'logistic:get_price_step_2' cargo_type.id transport_service.id%}">
+            <img src="{{ transport_service.image.url }}" class="img-responsive">
+          </a>
+          <div class="caption">
+            <h4>{{ transport_service.transport_service_name }}</h4>
+            <p>{{ transport_service.description }}</p>
+            <a href="{% url 'logistic:get_price_step_2' cargo_type.id transport_service.id%}" class="btn btn-primary btn-sm" role="button">Select</a>
+          </div>
+        </div>
+      </div>
+      {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+    {% endfor %}
+  {% else %}
+    <div class="col-sm-12">
+      <br>
+      <h2>No Transport Service Available</h2>
+    </div>
+  {% endif %}
+{% endblock %}

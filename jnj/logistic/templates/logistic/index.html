@@ -1,0 +1,20 @@
+{% extends "logistic/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1>{{ page_heading }}</h1>
+  {% if user.is_authenticated %}
+    <h2>Welcome, {{ user.get_username }}. Thanks for logging in.</h2>
+  {% else %}
+    <h2>Welcome, Guest.</h2>
+  {% endif %}
+  <ul>
+    <li><a href="{% url 'logistic:check_shipment' %}">Tracking</a></li>
+    <li><a href="{% url 'logistic:get_price' %}">Get Estimated Price</a></li>
+    <li><a href="#contact" data-toggle="modal">Contact Us</a></li>
+  </ul>
+</div>
+{% endblock %}

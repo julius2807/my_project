@@ -1,0 +1,55 @@
+{% extends 'logistic/base.html' %}
+{% block title %}Products And Services{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Products And Services</h2>
+</div>
+
+<div class="container">
+  {% if cargo_type_list %}
+  <h3>Cargo Types:</h3>
+    {% for cargo_type in cargo_type_list %}
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <div class="row thumbnail">
+            <div class="col-sm-2 col-lg-2">
+              <img src="{{ cargo_type.image.url }}" class="img-responsive">
+            </div>
+            <div class="col-sm-10 col-lg-10">
+              <div class="caption">
+                <h3>{{ cargo_type.cargo_type_name }}</h3>
+                <h4>{{ cargo_type.description }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+<div class="container">
+  {% if transport_service_list %}
+  <h3>Transport Services:</h3>
+    {% for transport_service in transport_service_list %}
+      <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <div class="row thumbnail">
+            <div class="col-sm-2 col-lg-2">
+              <img src="{{ transport_service.image.url }}" class="img-responsive">
+            </div>
+            <div class="col-sm-10 col-lg-10">
+              <div class="caption">
+                <h3>{{ transport_service.transport_service_name }}</h3>
+                <h4>{{ transport_service.description }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

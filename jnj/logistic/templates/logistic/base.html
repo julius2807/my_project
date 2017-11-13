@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Logistic{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'logistic/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'logistic:index' %}">Logistic</a>
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'logistic:products_and_services' %}"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp; Products and Services</a></li>
+                <li class="active"><a href="{% url 'logistic:get_price' %}"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; Get Estimated Price</a></li>
+                <li class="active"><a href="{% url 'logistic:check_shipment' %}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Find Shipments</a></li>
+                <li class="active"><a href="#"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp; About Us</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              {% if user.is_authenticated %}
+                <li class="active">
+                  <a href="#">
+                      	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp; Hi, {{ user.get_username }}
+                  </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'logistic:notifications_user' %}">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp; Notifications
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'logistic:logout_user' %}">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp; Logout
+                    </a>
+                </li>
+              {% else %}
+                <li class="active">
+                    <a href="{% url 'logistic:register' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Register
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#login" data-toggle="modal">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Login
+                    </a>
+                </li>
+              {% endif %}
+                <li class="active">
+                    <a href="#contact" data-toggle="modal">
+                        <span class="	glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp; Contact Us
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="container">
+                  {% block content %}{% endblock %}
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  {% block footer %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+  <div class="container">
+    <div class="navbar-text pull-left">
+      <p>Copyright @2017</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="contact" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Contact<h4>
+      </div>
+      <div class="modal-body">
+        <p>For general inquiries, please send an email to <b>contact@logistic.com</b></p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if not user.is_authenticated %}
+<div class="modal fade" id="login" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Member Area Login<h4>
+      </div>
+      <form class="form-horizontal" role="form" action="{% url 'logistic:login_user' %}" method="post" enctype="multipart/form-data">
+      <div class="modal-body">
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="id_username">
+            Username:
+          </label>
+          <div class="col-sm-10">
+              <input id="id_username" maxlength="30" name="username" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="id_password">
+              Password:
+          </label>
+          <div class="col-sm-10">
+              <input id="id_password" maxlength="30" name="password" type="password">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a class="btn btn-primary" data-dismiss="modal">Cancel</a>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+</body>
+</html>

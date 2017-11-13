@@ -1,0 +1,36 @@
+{% extends 'logistic/base.html' %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+  <h3>Notification List</h3>
+  {% if notification_list %}
+    {% for notification in notification_list %}
+      <div class="col-sm-12 col-md-12">
+        <div class="panel panel_default">
+          <div class="panel-body">
+            {% if notification.is_read == 'N' %}
+              <b>
+            {% endif %}
+            <p><h4>
+              {% if notification.is_read == 'N' %}
+                <span class="	glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp;
+              {% else %}
+                <span class="	glyphicon glyphicon-folder-open" aria-hidden="true"></span>&nbsp;
+              {% endif %}
+              <a href="{% url 'logistic:notifications_user_detail' notification.id%}">{{ notification.subject }}</a></h4>
+            Received Time: {{ notification.receive_timestamp }}
+            </p>
+            {% if notification.is_read == 'N' %}
+              </b>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="col-sm-12">
+      <br>
+      <h2>No Notification Available</h2>
+    </div>
+  {% endif %}
+{% endblock %}

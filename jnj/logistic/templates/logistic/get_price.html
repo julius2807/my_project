@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "logistic/base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <h1>Please Select Preferred Cargo Type for Getting Estimated Price</h1>
+  <h2>Select Cargo Type:</h2>
+  {% if cargo_type_list %}
+  {% for cargo_type in cargo_type_list %}
+    <div class="col-sm-4 col-lg-2">
+      <div class="thumbnail">
+        <a href="{% url 'logistic:get_price_step_1' cargo_type.id%}">
+          <img src="{{ cargo_type.image.url }}" class="img-responsive">
+        </a>
+        <div class="caption">
+          <h4>{{ cargo_type.cargo_type_name }}</h4>
+          <p>{{ cargo_type.description }}</p>
+          <a href="{% url 'logistic:get_price_step_1' cargo_type.id%}" class="btn btn-primary btn-sm" role="button">Select</a>
+        </div>
+      </div>
+    </div>
+    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+  {% endfor %}
+  {% else %}
+  <div class="col-sm-12">
+    <br>
+    <h2>No Cargo Type Available</h2>
+  </div>
+  {% endif %}
+{% endblock %}

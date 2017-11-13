@@ -1,0 +1,21 @@
+{% extends 'logistic/base.html' %}
+{% block title %}Notification Detail{% endblock %}
+
+{% block content %}
+  {% if notification %}
+    <div class="col-sm-12">
+      <h3>Notification Detail</h3>
+      <h4>Subject: {{ notification.subject }}</h4>
+      <p>{{ notification.body }}</th>
+    </div>
+  {% else %}
+    <div class="col-sm-12">
+      <br>
+      <h2>No Notification Available</h2>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+<a href="{% url 'logistic:notifications_user' %}"><button type="button" class="btn btn-warning">Back</button></a>
+{% endblock %}
