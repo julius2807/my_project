@@ -9,7 +9,7 @@
   {% if cargo_type_list %}
   {% for cargo_type in cargo_type_list %}
     <div class="col-sm-4 col-lg-2">
-      <div class="thumbnail">
+      <div class="thumbnail" style="height: 350px">
         <a href="{% url 'logistic:get_price_step_1' cargo_type.id%}">
           <img src="{{ cargo_type.image.url }}" class="img-responsive">
         </a>

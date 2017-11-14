@@ -24,7 +24,7 @@
   {% if transport_list %}
     {% for transport in transport_list %}
       <div class="col-sm-4 col-lg-2">
-        <div class="thumbnail">
+        <div class="thumbnail"  style="height: 350px">
           <a href="{% url 'logistic:get_price_step_3' cargo_type.id transport_service.id transport.id %}">
             <img src="{{ transport.image.url }}" class="img-responsive">
           </a>
