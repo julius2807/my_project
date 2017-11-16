@@ -24,7 +24,7 @@ class CargoType(models.Model):
     enabled = models.CharField(max_length=1, choices=ENABLE_CHOICES, default='N')
     image = models.ImageField(null=True,blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.cargo_type_name
 
     class Meta:
@@ -39,7 +39,7 @@ class TransportService(models.Model):
     transport_service_page = models.CharField(max_length=500,blank=True)
     image = models.ImageField(null=True,blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.transport_service_name
 
     class Meta:
@@ -52,7 +52,7 @@ class TransportCategory(models.Model):
     sequence = models.IntegerField(default=0)
     enabled = models.CharField(max_length=1, choices=ENABLE_CHOICES, default='N')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.transport_category_name
 
     class Meta:
@@ -69,7 +69,7 @@ class Transport(models.Model):
     image = models.ImageField(null=True,blank=True)
     enabled = models.CharField(max_length=1, choices=ENABLE_CHOICES, default='N')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.transport_name
 
     class Meta:

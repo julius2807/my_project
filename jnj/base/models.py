@@ -36,7 +36,7 @@ class Organization(models.Model):
     email = models.CharField(max_length=100, blank=True)
     logo = models.ImageField(null=True,blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.organization_code + r' - ' + self.organization_name
 
     class Meta:
@@ -59,7 +59,7 @@ class Branch(models.Model):
     fax_number = models.CharField(max_length=30, blank=True)
     email = models.CharField(max_length=100, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.organization.organization_code + r' - ' + self.branch_code + ' - ' + self.branch_name
 
     class Meta:
@@ -73,7 +73,7 @@ class Currency(models.Model):
     symbol = models.CharField(max_length=5)
     enabled = models.CharField(max_length=1, choices=YESNO_CHOICES, default='N')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.currency_code
 
     class Meta:
@@ -85,7 +85,7 @@ class ApplicationParameter(models.Model):
     parameter_name = models.CharField(max_length=100)
     parameter_value = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.organization.organization_code + r' - ' + self.param_name
 
     class Meta:
@@ -100,7 +100,7 @@ class LookupType(models.Model):
     parent_type_2 = models.CharField(max_length=30, blank=True)
     enabled = models.CharField(max_length=1, choices=YESNO_CHOICES, default='N')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.lookup_type
 
     class Meta:
@@ -116,7 +116,7 @@ class LookupCode(models.Model):
     parent_code_2 = models.CharField(max_length=30, blank=True)
     enabled = models.CharField(max_length=1, choices=YESNO_CHOICES, default='N')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.lookup_code
 
     class Meta:
@@ -147,7 +147,7 @@ class PopupType(models.Model):
     value_field_5 = models.CharField(max_length=50, blank=True)
     displayed_field = models.CharField(max_length=50, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.popup_name
 
     class Meta:
@@ -157,7 +157,7 @@ class Holiday(models.Model):
     holiday_date = models.DateField(unique=True)
     description = models.CharField(max_length=150, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.holiday_date.strftime('%Y-%m-%d')
 
     class Meta:
@@ -168,7 +168,7 @@ class UnitOfMeasurement(models.Model):
     uom_long_name = models.CharField(max_length=100, blank=True)
     uom_type = models.CharField(max_length=1, choices=UOM_TYPE_CHOICES)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.uom_name
 
     class Meta:
@@ -190,7 +190,7 @@ class UserNotification(models.Model):
     is_archived = models.CharField(max_length=1, choices=YESNO_CHOICES, default='N')
     archived_timestamp = models.DateTimeField(null=True,blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.subject
 
     class Meta:
