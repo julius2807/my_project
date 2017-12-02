@@ -59,7 +59,7 @@ def get_price_step_2(request,cargo_type_id,transport_service_id):
         raise Http404('Cargo Type Not Exist')
     try:
         transport_service = TransportService.objects.get(pk=transport_service_id)
-    except CargoType.DoesNotExist:
+    except TransportService.DoesNotExist:
         raise Http404('Transport Service Type Not Exist')
     transport_list = Transport.objects.filter(enabled='Y').order_by('sequence')
     context = {
@@ -70,11 +70,30 @@ def get_price_step_2(request,cargo_type_id,transport_service_id):
                 'transport_service': transport_service,
                 'transport_list': transport_list,
               }
-    return render(request, transport_service.transport_service_page , context)
+    return render(request, 'logistic/get_price_step_2.html' , context)
 
 def get_price_step_3(request,cargo_type_id,transport_service_id,transport_id):
-    text = """<h1>get_price_step_3 Page !</h1>"""
-    return HttpResponse(text)
+    try:
+        cargo_type = CargoType.objects.get(pk=cargo_type_id)
+    except CargoType.DoesNotExist:
+        raise Http404('Cargo Type Not Exist')
+    try:
+        transport_service = TransportService.objects.get(pk=transport_service_id)
+    except TransportService.DoesNotExist:
+        raise Http404('Transport Service Type Not Exist')
+    try:
+        transport = Transport.objects.get(pk=transport_id)
+    except Transport.DoesNotExist:
+        raise Http404('Transport  Not Exist')
+    context = {
+                'page_title': 'Logistic Solution - Get Estimated Price',
+                'page_heading': 'Please Select Preferred Transport for Getting Estimated Price',
+                'page_content': 'Select Transport:',
+                'cargo_type': cargo_type,
+                'transport_service': transport_service,
+                'transport': transport,
+              }
+    return render(request, 'logistic/get_price_step_3.html' , context)
 
 def login_user(request):
     if request.method == "POST":

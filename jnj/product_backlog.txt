@@ -1,42 +1,41 @@
 BACKLOG:
 ========
 
-Research:
+global:
+F: 1. save and view images
 2. internationalization/localization
-5. find out how to use google map API
-7. Email sending
+F: 3. member registration
+F: 4. member sign in / sign out
+F: 6. create notification framework
+F: 7. notification to member and user
+8. Email sending
 
 Product:
+F: 1. define transport table, perhaps require transport category first
 2. define price list based on cargo type , transport service , transport --> get per km first
 3. define from and to place in google map
 4. define price list based on cargo type , transport service , transport --> based on distance
 5. define order table
 6. define shipment tracking
+F: 8. filter cargo type, transport service to be displayed by enabled = Y
+F: 9. UOM
 
 Web Design:
+F: 1. base page
 3. required images and icons
 4. design of get price pages
 
 Management:
 1. GitHub Submit
-1. base page
 2. required js and css
 
+maps:
+F: 1. set map to setCenter
+F: 2. directions Services
+F: 3. zoom
+4. point to map and fill the origin / destination
 
-WIP:
-====
-6. create notification framework
-7. notification to member and user
 
-
-FINISHED:
-=========
-1. save and view images
-8. filter cargo type, transport service to be displayed by enabled = Y
-9. UOM
-1. define transport table, perhaps require transport category first
-3. member registration
-4. member sign in / sign out
 
 
 
@@ -53,3 +52,15 @@ NOTES:
 1. Generic ListView show list of object default in name = object_list, to change update the name in field : context_object_name
 2. Model Forms
 3. reverse _lazy(urlname)
+
+
+
+
+GIT:
+1. git status --> check current status
+2. git commit
+3. git push
+
+
+
+Google map API Key : AIzaSyBcTRLn1VOTMqW_ZZHnTQWHN9ifcoMJJV4
