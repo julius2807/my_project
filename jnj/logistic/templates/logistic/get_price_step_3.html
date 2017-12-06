@@ -13,56 +13,76 @@
   <h1>Please Select Origin and Destination</h1>
   <div class="container">
     <div class="row">
-      <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <span class="text-danger small">{{ field.errors }}</span>
-            </div>
-            <label class="control-label col-sm-3" for="pac-input-origin">Origin :</label>
-            <div class="col-sm-9">
-              <div id="pac-container">
-                <input id="pac-input-origin" class="pac-input" type="text" name="origin" placeholder="Enter a location">
+      <div class="col-xs-12 col-sm-12 col-md-6">
+        <form class="form-horizontal" role="form" action="{% url 'logistic:calculate_price' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="cargo_type_id" value="{{ cargo_type.id }}">
+          <input type="hidden" name="transport_service_id" value="{{ transport_service.id }}">
+          <input type="hidden" name="transport_id" value="{{ transport.id }}">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-md-12"><h4>Selected :</h4></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Cargo Type : </b></div>
+                  <div class="col-md-8">{{ cargo_type.cargo_type_name }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Transport Service : </b></div>
+                  <div class="col-md-8">{{ transport_service.transport_service_name }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Transport : </b></div>
+                  <div class="col-md-8">{{ transport.transport_name }}</div>
+                </div>
               </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <span class="text-danger small">{{ field.errors }}</span>
-            </div>
-            <label class="control-label col-sm-3" for="pac-input-dest">Destination :</label>
-            <div class="col-sm-9">
-              <div id="pac-container">
-                <input id="pac-input-dest" class="pac-input" type="text" name="origin" placeholder="Enter a location">
+              <div class="panel-body">
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-3" for="pac-input-origin">Origin :</label>
+                    <div class="col-sm-9">
+                      <div id="pac-container">
+                        <input id="pac-input-origin" class="pac-input" type="text" name="origin" placeholder="Enter a location">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-3" for="pac-input-dest">Destination :</label>
+                    <div class="col-sm-9">
+                      <div id="pac-container">
+                        <input id="pac-input-dest" class="pac-input" type="text" name="destination" placeholder="Enter a location">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                      <a href="#" id="pac-search" class="btn btn-primary">Search Direction</a>
+                    </div>
+                </div>
               </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-              <a href="#" id="pac-search" class="btn btn-primary">Search Direction</a>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <span class="text-danger small">{{ field.errors }}</span>
-            </div>
-            <label class="control-label col-sm-3" for="pac-output-distance">Distance :</label>
-            <div class="col-sm-9">
-              <div id="pac-container">
-                <input id="pac-output-distance" type="text" name="distance" readonly="true" placeholder="Distance">
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col-md-4"><b>Distance : </b></div>
+                  <div class="col-md-8"><input id="pac-output-distance" type="text" name="distance" readonly="true" placeholder="Distance"></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Duration : </b></div>
+                  <div class="col-md-8"><input id="pac-output-duration" type="text" name="duration" readonly="true" placeholder="Duration"></div>
+                </div>
               </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <button type="submit" class="btn btn-success">Calculate Price</button>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <span class="text-danger small">{{ field.errors }}</span>
-            </div>
-            <label class="control-label col-sm-3" for="pac-output-duration">Duration :</label>
-            <div class="col-sm-9">
-              <div id="pac-container">
-                <input id="pac-output-duration" type="text" name="distance" readonly="true" placeholder="Duration">
-              </div>
-            </div>
-        </div>
+          </div>
+        </form>
       </div>
       <div class="col-sm-12 col-md-6">
         <div id="map"></div>

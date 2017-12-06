@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^get_price_step_1/(?P<cargo_type_id>[0-9]+)/$', views.get_price_step_1, name='get_price_step_1'),
     url(r'^get_price_step_2/(?P<cargo_type_id>[0-9]+)/(?P<transport_service_id>[0-9]+)/$', views.get_price_step_2, name='get_price_step_2'),
     url(r'^get_price_step_3/(?P<cargo_type_id>[0-9]+)/(?P<transport_service_id>[0-9]+)/(?P<transport_id>[0-9]+)/$', views.get_price_step_3, name='get_price_step_3'),
+    url(r'^calculate_price/$', views.calculate_price, name='calculate_price'),
 ]

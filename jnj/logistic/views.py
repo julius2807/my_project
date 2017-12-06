@@ -95,6 +95,37 @@ def get_price_step_3(request,cargo_type_id,transport_service_id,transport_id):
               }
     return render(request, 'logistic/get_price_step_3.html' , context)
 
+def calculate_price(request):
+    if request.method == "POST":
+        form = PriceQueryForm(request.POST)
+        if form.is_valid():
+            try:
+                cargo_type = CargoType.objects.get(pk=form.cleaned_data['cargo_type_id'])
+            except CargoType.DoesNotExist:
+                raise Http404('Cargo Type Not Exist')
+            try:
+                transport_service = TransportService.objects.get(pk=form.cleaned_data['transport_service_id'])
+            except TransportService.DoesNotExist:
+                raise Http404('Transport Service Type Not Exist')
+            try:
+                transport = Transport.objects.get(pk=form.cleaned_data['transport_id'])
+            except Transport.DoesNotExist:
+                raise Http404('Transport  Not Exist')
+            context = {
+                        'page_title': 'Logistic Solution - Price Result',
+                        'page_heading': 'Please Select Preferred Transport for Getting Estimated Price',
+                        'page_content': 'Select Transport:',
+                        'cargo_type': cargo_type,
+                        'transport_service': transport_service,
+                        'transport': transport,
+                        'origin': form.cleaned_data['origin'],
+                        'destination': form.cleaned_data['destination'],
+                        'distance': form.cleaned_data['distance'],
+                        'duration': form.cleaned_data['duration'],
+                        'price': 'IDR 50,000'
+                      }
+            return render(request, 'logistic/get_price_result.html', context)
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']

@@ -1,0 +1,73 @@
+{% extends "logistic/base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block additional_script %}
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'logistic/css/maps.css' %}"/>
+  <script src="{% static 'logistic/js/maps-result.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcTRLn1VOTMqW_ZZHnTQWHN9ifcoMJJV4&libraries=places&callback=initMap" async defer></script>
+{% endblock %}
+
+{% block content %}
+  <h1>Please Select Origin and Destination</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-md-12"><h4>Selected :</h4></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Cargo Type : </b></div>
+                  <div class="col-md-8">{{ cargo_type.cargo_type_name }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Transport Service : </b></div>
+                  <div class="col-md-8">{{ transport_service.transport_service_name }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Transport : </b></div>
+                  <div class="col-md-8">{{ transport.transport_name }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Origin : </b></div>
+                  <div class="col-md-8">{{ origin }}</div>
+                  <input type="hidden" id="pac-input-origin" name="origin" value="{{ origin }}">
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Destination : </b></div>
+                  <div class="col-md-8">{{ destination }}</div>
+                  <input type="hidden" id="pac-input-dest" name="destination" value="{{ destination }}">
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Distance : </b></div>
+                  <div class="col-md-8">{{ distance }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Duration : </b></div>
+                  <div class="col-md-8">{{ duration }}</div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-4"><h2><b>Price : </b></h2></div>
+                  <div class="col-md-8"><h2>{{ price }}</h2></div>
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <a href="{% url 'logistic:get_price' %}" id="pac-search" class="btn btn-primary">Calculate Other Route</a>
+              <button type="submit" class="btn btn-success">Order</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

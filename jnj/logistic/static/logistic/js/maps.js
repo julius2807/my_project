@@ -6,12 +6,15 @@ var map, infoWindow;
 var directionsService, directionsDisplay;
 var marker, marker2;
 
+
 function initMap() {
+  alert('load');
   var card = document.getElementById('pac-card');
   var input_origin = document.getElementById('pac-input-origin');
   var input_dest = document.getElementById('pac-input-dest');
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
+  var geocoder = new google.maps.Geocoder();
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -33.8688, lng: 151.2195},
@@ -20,7 +23,6 @@ function initMap() {
 
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
   directionsDisplay.setMap(map);
-
 
   // ****** START set the location to the current location *****
 
@@ -64,6 +66,17 @@ function initMap() {
   autocomplete.bindTo('bounds', map);
   autocomplete2.bindTo('bounds', map);
 
+  google.maps.event.addDomListener(input_origin, 'keydown', function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+    }
+  });
+
+  google.maps.event.addDomListener(input_dest, 'keydown', function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+    }
+  });
 
   autocomplete.addListener('place_changed', function() {
     marker.setVisible(false);
@@ -84,7 +97,6 @@ function initMap() {
     }
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
-
   });
 
   autocomplete2.addListener('place_changed', function() {
@@ -110,6 +122,45 @@ function initMap() {
   });
 
   // ****** END setting up markers after search *****
+
+  // ******* START OF the pointing of location in map ******
+  var input_selected = input_origin;
+  var marker_selected = marker;
+
+  input_origin.addEventListener('focus', function() {
+    input_selected = input_origin;
+    marker_selected = marker;
+  });
+
+  input_dest.addEventListener('focus', function() {
+    input_selected = input_dest;
+    marker_selected = marker2;
+  });
+
+  google.maps.event.addListener(map, 'click', function(event) {
+    geocoder.geocode({
+      'latLng': event.latLng
+    }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        marker_selected.setVisible(false);
+        if (results[0]) {
+
+          // If the place has a geometry, then present it on a map.
+          if (results[0].geometry.viewport) {
+            map.fitBounds(results[0].geometry.viewport);
+          } else {
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+          }
+          marker_selected.setPosition(results[0].geometry.location);
+          marker_selected.setVisible(true);
+
+          input_selected.value = results[0].formatted_address;
+        }
+      }
+    });
+  });
+  // ******* END OF the pointing of location in map ******
 
   // ****** START initialize the direction service *****
 

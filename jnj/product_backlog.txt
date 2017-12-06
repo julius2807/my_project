@@ -34,6 +34,8 @@ F: 1. set map to setCenter
 F: 2. directions Services
 F: 3. zoom
 4. point to map and fill the origin / destination
+5. get total distance
+
 
 
 
@@ -64,3 +66,9 @@ GIT:
 
 
 Google map API Key : AIzaSyBcTRLn1VOTMqW_ZZHnTQWHN9ifcoMJJV4
+
+
+
+PYTHONANYWHERE:
+1. mkvirtualenv --python=python3.5 my_project
+2.
