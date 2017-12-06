@@ -8,7 +8,6 @@ var marker, marker2;
 
 
 function initMap() {
-  alert('load');
   var card = document.getElementById('pac-card');
   var input_origin = document.getElementById('pac-input-origin');
   var input_dest = document.getElementById('pac-input-dest');
