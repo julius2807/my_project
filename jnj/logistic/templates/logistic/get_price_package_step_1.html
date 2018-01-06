@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% extends "logistic/base.html" %}
+
+{% block title %}Get Price for Package Calculation{% endblock %}
+
+{% block additional_script %}
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'logistic/css/maps.css' %}"/>
+  <script src="{% static 'logistic/js/maps-package.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcTRLn1VOTMqW_ZZHnTQWHN9ifcoMJJV4&libraries=places&callback=initMap" async defer></script>
+{% endblock %}
+
+{% block content %}
+  <h1>Package Step 1: Let Me Know Your Preference</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6">
+        <form class="form-horizontal" role="form" action="{% url 'logistic:calculate_price_package' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-md-12"><h4>Let Me Know Your Inquiry :</h4></div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="form-group row">
+                    <label class="control-label col-sm-4" for="pac-input-origin">&nbsp;</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        Drop to Our Branch:
+                      </div>
+                    </div>
+                </div>
+                {% if branch_list %}
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-4" for="pac-input-origin">Branch :</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        <select id="pac-input-branch" class="pac-input" name="branch">
+                          <option value="">-- Choose our Closest Branch --</option>
+                          {% for branch in branch_list %}
+                            <option value="{{ branch.address_line_1 }}">{{ branch.branch_name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                {% endif %}
+                <input type="hidden" id="pac-input-drop_to_branch" name="drop_to_branch" value="N">
+                <div class="form-group row">
+                    <label class="control-label col-sm-4" for="pac-input-origin">&nbsp;</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        Or We'll Pick Up For You:
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-4" for="pac-input-origin">Origin :</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        <input id="pac-input-origin" class="pac-input" type="text" name="origin" placeholder="Enter a location">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-4" for="pac-input-dest">Destination :</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        <input id="pac-input-dest" class="pac-input" type="text" name="destination" placeholder="Enter a location">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-4" for="pac-input-dest">Volume (cc):</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        L: <input id="pac-input-length" class="pac-input-volume" type="text" name="volume_length" placeholder="0">
+                        &nbsp;x W: <input id="pac-input-width" class="pac-input-volume" type="text" name="volume_width" placeholder="0">
+                        &nbsp;x H: <input id="pac-input-height" class="pac-input-volume" type="text" name="volume_height" placeholder="0">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger small">{{ field.errors }}</span>
+                    </div>
+                    <label class="control-label col-sm-4" for="pac-input-dest">Weight :</label>
+                    <div class="col-sm-8">
+                      <div id="pac-container">
+                        <input id="pac-input-weight" class="pac-input-volume" type="text" name="weight" placeholder="0">&nbsp;kg(s)
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                      <a href="#" id="pac-search" class="btn btn-primary">Search Direction</a>
+                    </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col-md-4"><b>Distance : </b></div>
+                  <div class="col-md-8"><input id="pac-output-distance" type="text" name="distance" readonly="true" placeholder="Distance"></div>
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <button type="submit" class="btn btn-success">Calculate Price</button>
+              <br>
+              <br>
+              <br>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

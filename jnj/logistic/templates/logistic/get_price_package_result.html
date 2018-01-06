@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Please Select Origin and Destination</h1>
+  <h1>Rent Transport Result: Estimated Price</h1>
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6">
@@ -20,21 +20,26 @@
                   <div class="col-md-12"><h4>Selected :</h4></div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4"><b>Cargo Type : </b></div>
-                  <div class="col-md-8">{{ cargo_type.cargo_type_name }}</div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4"><b>Transport Service : </b></div>
-                  <div class="col-md-8">{{ transport_service.transport_service_name }}</div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4"><b>Transport : </b></div>
-                  <div class="col-md-8">{{ transport.transport_name }}</div>
-                </div>
-                <div class="row">
                   <div class="col-md-4"><b>Origin : </b></div>
                   <div class="col-md-8">{{ origin }}</div>
                   <input type="hidden" id="pac-input-origin" name="origin" value="{{ origin }}">
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Drop To Branch : </b></div>
+                  <div class="col-md-8">{{ drop_to_branch }}</div>
+                  <input type="hidden" id="pac-input-drop_to_branch" name="drop_to_branch" value="{{ drop_to_branch }}">
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Volume : </b></div>
+                  <div class="col-md-8">{{ volume_length }}&nbsp;x&nbsp;{{ volume_width }}&nbsp;x&nbsp;{{ volume_height }}</div>
+                  <input type="hidden" id="pac-input-volume_length" name="volume_length" value="{{ volume_length }}">
+                  <input type="hidden" id="pac-input-volume_width" name="volume_width" value="{{ volume_width }}">
+                  <input type="hidden" id="pac-input-volume_height" name="volume_height" value="{{ volume_height }}">
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><b>Weight : </b></div>
+                  <div class="col-md-8">{{ weight }}</div>
+                  <input type="hidden" id="pac-input-weight" name="weight" value="{{ weight }}">
                 </div>
                 <div class="row">
                   <div class="col-md-4"><b>Destination : </b></div>
@@ -44,10 +49,6 @@
                 <div class="row">
                   <div class="col-md-4"><b>Distance : </b></div>
                   <div class="col-md-8">{{ distance }}</div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4"><b>Duration : </b></div>
-                  <div class="col-md-8">{{ duration }}</div>
                 </div>
               </div>
               <div class="panel-body">
@@ -59,7 +60,7 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-              <a href="{% url 'logistic:get_price_rent' %}" id="pac-search" class="btn btn-primary">Calculate Other Route</a>
+              <a href="{% url 'logistic:get_price_package' %}" id="pac-search" class="btn btn-primary">Calculate Other Route</a>
               <button type="submit" class="btn btn-success">Order</button>
             </div>
           </div>

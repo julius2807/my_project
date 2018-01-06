@@ -24,7 +24,7 @@ class BranchAdmin(admin.ModelAdmin):
         ('Address'              , {'fields': ['address_line_1', 'address_line_2', 'address_line_3', 'city', 'state', 'country', 'zip_code']} ),
         ('Contact'              , {'fields': ['business_phone_number', 'fax_number', 'email']} ),
     ]
-    list_display = ( 'organization_id' , 'branch_code' , 'branch_name' )
+    list_display = ( 'organization' , 'branch_code' , 'branch_name' )
     search_fields = ['branch_code' , 'branch_name']
 
 admin.site.register( Branch, BranchAdmin )

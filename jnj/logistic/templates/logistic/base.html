@@ -30,7 +30,13 @@
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{% url 'logistic:products_and_services' %}"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp; Products and Services</a></li>
-                <li class="active"><a href="{% url 'logistic:get_price' %}"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; Get Estimated Price</a></li>
+                <li class="active dropdown">
+    	            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; Get Estimated Price &nbsp;<b class="caret"></b></a>
+    	            <ul class="dropdown-menu">
+          					<li><a href="{% url 'logistic:get_price_package' %}"><span class="glyphicon glyphicon-gift"></span> &nbsp;Package</a></li>
+          					<li><a href="{% url 'logistic:get_price_rent' %}"><span class="glyphicon glyphicon-user"></span> &nbsp;Rent Transport</a></li>
+    	            </ul>
+    	          </li>
                 <li class="active"><a href="{% url 'logistic:check_shipment' %}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Find Shipments</a></li>
                 <li class="active"><a href="#"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp; About Us</a></li>
             </ul>

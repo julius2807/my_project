@@ -9,15 +9,13 @@ from django.views import generic
 from django.views.generic import View, TemplateView, ListView, DetailView
 from .models import *
 from .forms import *
-from base.models import UserNotification
+from base.models import UserNotification, Organization, Branch
 from base.utils import NotificationUtil
 from datetime import datetime
 
 # Create your views here.
-def check_shipment(request):
-    text = """<h1>Check Shipment Page !</h1>"""
-    return HttpResponse(text)
 
+###################################################### ADMINISTRATION RELATED ##############################################
 class IndexView(TemplateView):
     template_name = 'logistic/index.html'
 
@@ -26,105 +24,6 @@ class IndexView(TemplateView):
         context['page_title'] = 'Logistic Solution'
         context['page_heading'] = 'Welcome to our site, the logistic solution for you'
         return context
-
-def get_price(request):
-    cargo_type_list = CargoType.objects.filter(enabled='Y').order_by('sequence')
-    context = {
-                'page_title': 'Logistic Solution - Get Estimated Price',
-                'page_heading': 'Please Select Preferred Cargo Type for Getting Estimated Price',
-                'page_content': 'Select Cargo Type:',
-                'cargo_type_list': cargo_type_list,
-              }
-    return render(request, 'logistic/get_price.html', context)
-
-def get_price_step_1(request,cargo_type_id):
-    try:
-        cargo_type = CargoType.objects.get(pk=cargo_type_id)
-    except CargoType.DoesNotExist:
-        raise Http404('Cargo Type Not Exist')
-    transport_service_list = TransportService.objects.filter(enabled='Y').order_by('sequence')
-    context = {
-                'page_title': 'Logistic Solution - Get Estimated Price',
-                'page_heading': 'Please Select Preferred Transport Service for Getting Estimated Price',
-                'page_content': 'Select Transport Service:',
-                'cargo_type': cargo_type,
-                'transport_service_list': transport_service_list,
-              }
-    return render(request, 'logistic/get_price_step_1.html', context)
-
-def get_price_step_2(request,cargo_type_id,transport_service_id):
-    try:
-        cargo_type = CargoType.objects.get(pk=cargo_type_id)
-    except CargoType.DoesNotExist:
-        raise Http404('Cargo Type Not Exist')
-    try:
-        transport_service = TransportService.objects.get(pk=transport_service_id)
-    except TransportService.DoesNotExist:
-        raise Http404('Transport Service Type Not Exist')
-    transport_list = Transport.objects.filter(enabled='Y').order_by('sequence')
-    context = {
-                'page_title': 'Logistic Solution - Get Estimated Price',
-                'page_heading': 'Please Select Preferred Transport for Getting Estimated Price',
-                'page_content': 'Select Transport:',
-                'cargo_type': cargo_type,
-                'transport_service': transport_service,
-                'transport_list': transport_list,
-              }
-    return render(request, 'logistic/get_price_step_2.html' , context)
-
-def get_price_step_3(request,cargo_type_id,transport_service_id,transport_id):
-    try:
-        cargo_type = CargoType.objects.get(pk=cargo_type_id)
-    except CargoType.DoesNotExist:
-        raise Http404('Cargo Type Not Exist')
-    try:
-        transport_service = TransportService.objects.get(pk=transport_service_id)
-    except TransportService.DoesNotExist:
-        raise Http404('Transport Service Type Not Exist')
-    try:
-        transport = Transport.objects.get(pk=transport_id)
-    except Transport.DoesNotExist:
-        raise Http404('Transport  Not Exist')
-    context = {
-                'page_title': 'Logistic Solution - Get Estimated Price',
-                'page_heading': 'Please Select Preferred Transport for Getting Estimated Price',
-                'page_content': 'Select Transport:',
-                'cargo_type': cargo_type,
-                'transport_service': transport_service,
-                'transport': transport,
-              }
-    return render(request, 'logistic/get_price_step_3.html' , context)
-
-def calculate_price(request):
-    if request.method == "POST":
-        form = PriceQueryForm(request.POST)
-        if form.is_valid():
-            try:
-                cargo_type = CargoType.objects.get(pk=form.cleaned_data['cargo_type_id'])
-            except CargoType.DoesNotExist:
-                raise Http404('Cargo Type Not Exist')
-            try:
-                transport_service = TransportService.objects.get(pk=form.cleaned_data['transport_service_id'])
-            except TransportService.DoesNotExist:
-                raise Http404('Transport Service Type Not Exist')
-            try:
-                transport = Transport.objects.get(pk=form.cleaned_data['transport_id'])
-            except Transport.DoesNotExist:
-                raise Http404('Transport  Not Exist')
-            context = {
-                        'page_title': 'Logistic Solution - Price Result',
-                        'page_heading': 'Please Select Preferred Transport for Getting Estimated Price',
-                        'page_content': 'Select Transport:',
-                        'cargo_type': cargo_type,
-                        'transport_service': transport_service,
-                        'transport': transport,
-                        'origin': form.cleaned_data['origin'],
-                        'destination': form.cleaned_data['destination'],
-                        'distance': form.cleaned_data['distance'],
-                        'duration': form.cleaned_data['duration'],
-                        'price': 'IDR 50,000'
-                      }
-            return render(request, 'logistic/get_price_result.html', context)
 
 def login_user(request):
     if request.method == "POST":
@@ -201,6 +100,9 @@ def notifications_user_detail(request, notification_id):
               }
     return render(request, 'logistic/notification_detail.html', context)
 
+############################################################################################################################
+
+################################################ PRODUCTS AND SERVICE RELATED ##############################################
 
 def products_and_services(request):
     cargo_type_list = CargoType.objects.filter(enabled='Y').order_by('sequence')
@@ -213,3 +115,143 @@ def products_and_services(request):
                 'transport_service_list': transport_service_list,
               }
     return render(request, 'logistic/products_and_services.html', context)
+
+############################################################################################################################
+
+################################################ CHECK SHIPMENT ############################################################
+
+def check_shipment(request):
+    text = """<h1>Check Shipment Page !</h1>"""
+    return HttpResponse(text)
+
+
+############################################################################################################################
+
+################################################ GET PRICE RENT ############################################################
+
+def get_price_rent(request):
+    cargo_type_list = CargoType.objects.filter(enabled='Y').order_by('sequence')
+    context = {
+                'cargo_type_list': cargo_type_list,
+              }
+    return render(request, 'logistic/get_price_rent_step_0.html', context)
+
+def get_price_rent_step_1(request,cargo_type_id):
+    try:
+        cargo_type = CargoType.objects.get(pk=cargo_type_id)
+    except CargoType.DoesNotExist:
+        raise Http404('Cargo Type Not Exist')
+    transport_service_list = TransportService.objects.filter(enabled='Y').order_by('sequence')
+    context = {
+                'cargo_type': cargo_type,
+                'transport_service_list': transport_service_list,
+              }
+    return render(request, 'logistic/get_price_rent_step_1.html', context)
+
+def get_price_rent_step_2(request,cargo_type_id,transport_service_id):
+    text = """<h1>Under Constructions 2</h1>"""
+    return HttpResponse(text)
+
+def get_price_rent_step_3(request,cargo_type_id,transport_service_id):
+    text = """<h1>Under Constructions 3</h1>"""
+    return HttpResponse(text)
+
+def calculate_rent_price(request):
+    text = """<h1>Under Constructions 4</h1>"""
+    return HttpResponse(text)
+
+def get_price_rent_step_2_domestic(request,cargo_type_id,transport_service_id):
+    try:
+        cargo_type = CargoType.objects.get(pk=cargo_type_id)
+    except CargoType.DoesNotExist:
+        raise Http404('Cargo Type Not Exist')
+    try:
+        transport_service = TransportService.objects.get(pk=transport_service_id)
+    except TransportService.DoesNotExist:
+        raise Http404('Transport Service Type Not Exist')
+    transport_list = Transport.objects.filter(enabled='Y').order_by('sequence')
+    context = {
+                'cargo_type': cargo_type,
+                'transport_service': transport_service,
+                'transport_list': transport_list,
+              }
+    return render(request, 'logistic/get_price_rent_step_2_domestic.html' , context)
+
+def get_price_rent_step_3_domestic(request,cargo_type_id,transport_service_id,transport_id):
+    try:
+        cargo_type = CargoType.objects.get(pk=cargo_type_id)
+    except CargoType.DoesNotExist:
+        raise Http404('Cargo Type Not Exist')
+    try:
+        transport_service = TransportService.objects.get(pk=transport_service_id)
+    except TransportService.DoesNotExist:
+        raise Http404('Transport Service Type Not Exist')
+    try:
+        transport = Transport.objects.get(pk=transport_id)
+    except Transport.DoesNotExist:
+        raise Http404('Transport  Not Exist')
+    context = {
+                'cargo_type': cargo_type,
+                'transport_service': transport_service,
+                'transport': transport,
+              }
+    return render(request, 'logistic/get_price_rent_step_3_domestic.html' , context)
+
+
+def calculate_price_rent_domestic(request):
+    if request.method == "POST":
+        form = PriceQueryForRentalForm(request.POST)
+        if form.is_valid():
+            try:
+                cargo_type = CargoType.objects.get(pk=form.cleaned_data['cargo_type_id'])
+            except CargoType.DoesNotExist:
+                raise Http404('Cargo Type Not Exist')
+            try:
+                transport_service = TransportService.objects.get(pk=form.cleaned_data['transport_service_id'])
+            except TransportService.DoesNotExist:
+                raise Http404('Transport Service Type Not Exist')
+            try:
+                transport = Transport.objects.get(pk=form.cleaned_data['transport_id'])
+            except Transport.DoesNotExist:
+                raise Http404('Transport  Not Exist')
+            context = {
+                        'cargo_type': cargo_type,
+                        'transport_service': transport_service,
+                        'transport': transport,
+                        'origin': form.cleaned_data['origin'],
+                        'destination': form.cleaned_data['destination'],
+                        'distance': form.cleaned_data['distance'],
+                        'duration': form.cleaned_data['duration'],
+                        'price': 'IDR 50,000'
+                      }
+            return render(request, 'logistic/get_price_rent_result_domestic.html', context)
+
+############################################################################################################################
+
+################################################ GET PRICE PACKAGE##########################################################
+
+def get_price_package(request):
+    branch_list = Branch.objects.filter(enabled='Y')
+    context = {
+                'branch_list': branch_list,
+              }
+    return render(request, 'logistic/get_price_package_step_1.html', context)
+
+def calculate_price_package(request):
+   if request.method == "POST":
+       form = PriceQueryForPackageForm(request.POST)
+       if form.is_valid():
+           context = {
+                        'drop_to_branch': form.cleaned_data['drop_to_branch'],
+                        'origin': form.cleaned_data['origin'],
+                        'destination': form.cleaned_data['destination'],
+                        'volume_length': form.cleaned_data['volume_length'],
+                        'volume_width': form.cleaned_data['volume_width'],
+                        'volume_height': form.cleaned_data['volume_height'],
+                        'weight': form.cleaned_data['weight'],
+                        'distance': form.cleaned_data['distance'],
+                        'price': 'IDR 50,000'
+                     }
+           return render(request, 'logistic/get_price_package_result.html', context)
+
+############################################################################################################################

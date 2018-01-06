@@ -3,7 +3,7 @@
 {% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
-  <h1>Please Select Preferred Transport for Getting Estimated Price</h1>
+  <h1>Rent Transport Step 2: Please Select Preferred Transport for Getting Estimated Price</h1>
   <p>
   {% if cargo_type %}
     Selected Cargo Type : {{ cargo_type.cargo_type_name }}
@@ -25,13 +25,13 @@
     {% for transport in transport_list %}
       <div class="col-sm-4 col-lg-2">
         <div class="thumbnail"  style="height: 350px">
-          <a href="{% url 'logistic:get_price_rent_step_3' cargo_type.id transport_service.id transport.id %}">
+          <a href="{% url 'logistic:get_price_rent_step_3_domestic' cargo_type.id transport_service.id transport.id %}">
             <img src="{{ transport.image.url }}" class="img-responsive">
           </a>
           <div class="caption">
             <h4>{{ transport.transport_name }}</h4>
             <p>{{ transport.description }}</p>
-            <a href="{% url 'logistic:get_price_rent_step_3' cargo_type.id transport_service.id transport.id %}" class="btn btn-primary btn-sm" role="button">Select</a>
+            <a href="{% url 'logistic:get_price_rent_step_3_domestic' cargo_type.id transport_service.id transport.id %}" class="btn btn-primary btn-sm" role="button">Select</a>
           </div>
         </div>
       </div>

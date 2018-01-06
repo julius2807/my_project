@@ -9,7 +9,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password']
 
-class PriceQueryForm(forms.Form):
+class PriceQueryForRentalForm(forms.Form):
     cargo_type_id = forms.CharField(max_length=255, required=True)
     transport_service_id = forms.CharField(max_length=255, required=True)
     transport_id = forms.CharField(max_length=255, required=True)
@@ -17,3 +17,13 @@ class PriceQueryForm(forms.Form):
     destination = forms.CharField(max_length=1000, required=True)
     distance = forms.CharField(max_length=20)
     duration = forms.CharField(max_length=20)
+
+class PriceQueryForPackageForm(forms.Form):
+    drop_to_branch = forms.CharField(max_length=5, required=True)
+    origin = forms.CharField(max_length=1000, required=True)
+    destination = forms.CharField(max_length=1000, required=True)
+    volume_length = forms.CharField(max_length=20, required=True)
+    volume_width = forms.CharField(max_length=20, required=True)
+    volume_height = forms.CharField(max_length=20, required=True)
+    weight = forms.CharField(max_length=20, required=True)
+    distance = forms.CharField(max_length=20)

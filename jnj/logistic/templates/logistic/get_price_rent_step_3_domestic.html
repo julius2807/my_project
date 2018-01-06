@@ -10,11 +10,11 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Please Select Origin and Destination</h1>
+  <h1>Rent Transport Step 3: Please Select Origin and Destination</h1>
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6">
-        <form class="form-horizontal" role="form" action="{% url 'logistic:calculate_rent_price' %}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" role="form" action="{% url 'logistic:calculate_price_rent_domestic' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <input type="hidden" name="cargo_type_id" value="{{ cargo_type.id }}">
           <input type="hidden" name="transport_service_id" value="{{ transport_service.id }}">
